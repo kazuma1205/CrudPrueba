@@ -1,18 +1,57 @@
 ﻿@page "/counter"
+@inject HttpClient Http
+<PageTitle>Crear Usuario</PageTitle>
 
-<PageTitle>Counter</PageTitle>
+<h1>Crear Nuevo Usuario</h1>
 
-<h1>Counter</h1>
+<!-- Formulario para crear un nuevo usuario -->
+<input type="text" @bind="Nombre" placeholder="Nombre" />
+<input type="email" @bind="Correo" placeholder="Correo" />
+<input type="password" @bind="Contraseña" placeholder="Contraseña" />
+<button @onclick="CrearUsuario">Crear Usuario</button>
 
-<p role="status">Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<p>@mensaje</p>
 
 @code {
-    private int currentCount = 0;
+    // Variables para los datos del nuevo usuario
+    private string Nombre;
+    private string Correo;
+    private string Contraseña;
 
-    private void IncrementCount()
+    // Mensaje de estado
+    private string mensaje;
+
+    // Método para crear un nuevo usuario
+    async Task CrearUsuario()
     {
-        currentCount++;
+        try
+        {
+            var parametros = new
+            {
+                nombre = Nombre,
+                correo = Correo,
+                password = Contraseña
+            };
+
+            // Llamar al endpoint POST para crear el usuario
+            var response = await Http.PostAsJsonAsync("https://localhost:7240/api/Usuario/CrearUsuario", parametros);
+
+            if (response.IsSuccessStatusCode)
+            {
+                mensaje = "Usuario creado correctamente";
+                // Limpiar campos después de crear el usuario
+                Nombre = string.Empty;
+                Correo = string.Empty;
+                Contraseña = string.Empty;
+            }
+            else
+            {
+                mensaje = $"Error al crear usuario: {response.ReasonPhrase}";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Error al crear usuario: {ex.Message}";
+        }
     }
 }

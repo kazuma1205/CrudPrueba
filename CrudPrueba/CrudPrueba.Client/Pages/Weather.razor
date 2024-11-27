@@ -1,39 +1,56 @@
 ﻿@page "/weather"
 
-<PageTitle>Weather</PageTitle>
+<PageTitle>Movimientos</PageTitle>
 
-<h1>Weather</h1>
+<h1>Movimientos</h1>
+<br />
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Fecha</th>
+            <th scope="col">Descripcion</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">1</th>
+            <td>03/02/2024</td>
+            <td>Bono comision</td>
+            <td>150000</td>
+            <td>Ingresos</td>
+            <td>Juan carlos</td>
+            <td>
+                <button class="btn btn-success">Editar</button>
+                <button class="btn btn-warning">Editar</button>
 
-<p>This component demonstrates showing data.</p>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<h3>Nuevo Movimiento</h3>
+<label>Usuario</label>
+<select class="form-control">
+    <option selected value="Ingreso">Seleccionar Usuario</option>
+    <option selected value="Egreso">Carlos Andres</option>
+</select>
 
-@if (forecasts == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Temp. (C)</th>
-                <th>Temp. (F)</th>
-                <th>Summary</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var forecast in forecasts)
-            {
-                <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+<label>Cantidad</label>
+<input class="form-control" type="number" />
+<label>Tipo</label>
+<select class="form-control">
+    <option selected value="Ingreso">Ingreso</option>
+    <option selected value="Egreso">Ingreso</option>
+</select>
+<label>Descripcion</label>
+<input class="form-control" type="text" />
+<button class="btn-primary">Guardar</button>
+<label>Procesando..</label>
 
 @code {
     private WeatherForecast[]? forecasts;

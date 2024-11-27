@@ -1,7 +1,100 @@
 ﻿@page "/"
-
+@inject HttpClient Http
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Ver registros y estado conexion</h1>
 
-Welcome to your new app.
+Estado de la conexion actual
+<p>@conexionServidor</p>
+<br/>
+<p>@ConexionTablaUsers</p>
+<h1>Actualizar y Eliminar Usuario</h1>
+
+<!-- Form actualizar y eliminar -->
+<h3>Actualizar Usuario</h3>
+<input type="text" @bind="usuarioId" placeholder="Id del usuario" />
+<input type="text" @bind="usuarioNombre" placeholder="Nuevo Nombre" />
+<input type="email" @bind="usuarioCorreo" placeholder="Nuevo Correo" />
+<button @onclick="ActualizarUsuario">Actualizar Usuario</button>
+
+<h3>Eliminar Usuario</h3>
+<input type="text" @bind="usuarioIdEliminar" placeholder="Id del usuario a eliminar" />
+<button @onclick="EliminarUsuario">Eliminar Usuario</button>
+
+<p>@mensaje</p>
+
+@code {
+    private string conexionServidor = "En espera";
+    private string ConexionTablaUsers = "en espera";
+    private int usuarioId;
+    private string usuarioNombre;
+    private string usuarioCorreo;
+    private int usuarioIdEliminar;
+    private string url = "https://localhost:7240/api/Usuario/";
+    // Mensaje de estado
+    private string mensaje;
+
+    // Método para actualizar usuario
+    async Task ActualizarUsuario()
+    {
+        try
+        {
+            var parametros = new
+            {
+                id = usuarioId,
+                nombre = usuarioNombre,
+                correo = usuarioCorreo
+            };
+
+            // Llamar al endpoint PUT para actualizar el usuario
+            var response = await Http.PutAsJsonAsync($"{url}ActualizarUsuario", parametros);
+
+            if (response.IsSuccessStatusCode)
+            {
+                mensaje = "Usuario actualizado correctamente";
+            }
+            else
+            {
+                mensaje = $"Error al actualizar usuario: {response.ReasonPhrase}";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Error al actualizar usuario: {ex.Message}";
+        }
+    }
+
+    // Método para eliminar usuario
+    async Task EliminarUsuario()
+    {
+        try
+        {
+            var response = await Http.DeleteAsync($"{url}EliminarUsuario?id={usuarioIdEliminar}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                mensaje = "Usuario eliminado correctamente";
+            }
+            else
+            {
+                mensaje = $"Error al eliminar usuario: {response.ReasonPhrase}";
+            }
+        }
+        catch (Exception ex)
+        {
+            mensaje = $"Error al eliminar usuario: {ex.Message}";
+        }
+    }
+    async Task ProbarConexion()
+    {
+        var response = await Http.GetStringAsync($"{url}ObtenerUsuarios");
+        var estadoConexion = await Http.GetStringAsync($"{url}ConexionDirectaSqlClient");
+        conexionServidor = estadoConexion;
+        ConexionTablaUsers = response;
+
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await ProbarConexion();
+    }
+}

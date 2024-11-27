@@ -1,5 +1,7 @@
 using CrudPrueba.Client.Pages;
 using CrudPrueba.Components;
+using CrudPrueba.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveWebAssemblyComponents();
 
+//servicios necesarios para los controllers
+builder.Services.AddControllers(); 
+builder.Services.AddHttpClient();
+//referencia a la cadena de conexion
+builder.Services.AddDbContext<AplicacionDbContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+// Configura la cadena de conexión desde appsettings.json
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Registra UsuarioDataAccess con la cadena de conexión
+builder.Services.AddSingleton(new StoreProcedureLogic(connectionString));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -25,7 +40,7 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
-
+app.MapControllers();//mapeo de controladores
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(CrudPrueba.Client._Imports).Assembly);

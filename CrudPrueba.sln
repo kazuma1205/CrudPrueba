@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudPrueba", "CrudPrueba\Cr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudPrueba.Client", "CrudPrueba\CrudPrueba.Client\CrudPrueba.Client.csproj", "{06098885-E7CE-4A89-8C91-C698B4553301}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrudPrueba.Shared", "CrudPrueba.Shared\CrudPrueba.Shared.csproj", "{B525B785-CA52-4793-A1FE-13D7645B0EDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{06098885-E7CE-4A89-8C91-C698B4553301}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06098885-E7CE-4A89-8C91-C698B4553301}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06098885-E7CE-4A89-8C91-C698B4553301}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B525B785-CA52-4793-A1FE-13D7645B0EDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B525B785-CA52-4793-A1FE-13D7645B0EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B525B785-CA52-4793-A1FE-13D7645B0EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B525B785-CA52-4793-A1FE-13D7645B0EDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
